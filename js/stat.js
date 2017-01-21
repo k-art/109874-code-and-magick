@@ -1,14 +1,14 @@
 'use strict';
 
-window.drawCloud = function (ctx, x, y, width, heigth) {
+window.drawCloud = function (ctx, x, y, width, height) {
   var offset = 5;
   ctx.beginPath();
   ctx.moveTo(x, y);
-  ctx.lineTo(x + offset, y + heigth / 2);
-  ctx.lineTo(x, y + heigth);
-  ctx.lineTo(x + width / 2, y + heigth - offset);
-  ctx.lineTo(x + width, y + heigth);
-  ctx.lineTo(x + width - offset, y + heigth / 2);
+  ctx.lineTo(x + offset, y + height / 2);
+  ctx.lineTo(x, y + height);
+  ctx.lineTo(x + width / 2, y + height - offset);
+  ctx.lineTo(x + width, y + height);
+  ctx.lineTo(x + width - offset, y + height / 2);
   ctx.lineTo(x + width, y);
   ctx.lineTo(x + width / 2, y + offset);
   ctx.lineTo(x, y);
@@ -19,10 +19,10 @@ window.drawCloud = function (ctx, x, y, width, heigth) {
 
 window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  drawCloud(ctx, 110, 20, 420, 270);
+  window.drawCloud(ctx, 110, 20, 420, 270);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-  drawCloud(ctx, 100, 10, 420, 270);
+  window.drawCloud(ctx, 100, 10, 420, 270);
 
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
@@ -45,9 +45,9 @@ window.renderStatistics = function (ctx, names, times) {
   var step = histoHeight / max;
   var columnIndent = 90;
 
-  for (var i = 0; i < times.length; i ++) {
+  for (i = 0; i < times.length; i++) {
     var name = names[i];
-    var time = times[i];
+    time = times[i];
 
     var height = step * time;
 
@@ -70,8 +70,8 @@ window.renderStatistics = function (ctx, names, times) {
 var canvas = document.querySelector('canvas');
 
 
-renderStatistics(
-  canvas.getContext('2d'),
-  ['Вы', 'Вася', 'Лена', 'Слава'],
-  ['2000.40', '3500.50', '7000.23', '4200.11']
+window.renderStatistics(
+    canvas.getContext('2d'),
+    ['Вы', 'Вася', 'Лена', 'Слава'],
+    ['2000.40', '3500.50', '7000.23', '4200.11']
 );
