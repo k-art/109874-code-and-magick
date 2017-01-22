@@ -51,7 +51,7 @@ window.renderStatistics = function (ctx, names, times) {
 
     var height = step * time;
 
-    ctx.fillText(time.toFixed(0), histoX + columnIndent * i, (histoHeight - height) + 90);
+    ctx.fillText((time / 1000).toFixed(2), histoX + columnIndent * i, (histoHeight - height) + 80);
 
     if (name === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
@@ -59,19 +59,8 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.fillStyle = ['rgba(0, 0,', ((Math.random() * 5) * 50).toFixed(0), ',', (Math.random() + 0.1).toFixed(1), ')'].join('');
     }
 
-    ctx.fillRect(histoX + columnIndent * i, 250, 40, height * -1);
+    ctx.fillRect(histoX + columnIndent * i, 240, 40, height * -1);
     ctx.fillStyle = '#000';
-    ctx.fillText(name, histoX + columnIndent * i, 100 + histoHeight + 20);
-
-
+    ctx.fillText(name, histoX + columnIndent * i, 90 + histoHeight + 20);
   }
 };
-
-var canvas = document.querySelector('canvas');
-
-
-window.renderStatistics(
-    canvas.getContext('2d'),
-    ['Вы', 'Вася', 'Лена', 'Слава'],
-    ['2000.40', '3500.50', '7000.23', '4200.11']
-);
