@@ -53,13 +53,12 @@ var changeColor = function (colorsList, currentColorIndex, itemToPaint) {
   }
   itemToPaint.style.fill = colorsList[currentColorIndex];
 
-  currentCoatColorIndex = currentColorIndex;
-  currentEyesColorIndex = currentColorIndex;
   return currentColorIndex;
 };
 
 wizardCoat.addEventListener('click', function () {
-  changeColor(wizardCoatColors, currentCoatColorIndex, wizardCoat);
+  currentCoatColorIndex = changeColor(wizardCoatColors, currentCoatColorIndex, wizardCoat);
+  console.log(currentCoatColorIndex);
 });
 
 
@@ -75,7 +74,8 @@ var wizardEyesColors = [
 var currentEyesColorIndex = 0;
 
 wizardEyes.addEventListener('click', function () {
-  changeColor(wizardEyesColors, currentEyesColorIndex, wizardEyes);
+  currentEyesColorIndex = changeColor(wizardEyesColors, currentEyesColorIndex, wizardEyes);
+  console.log(currentEyesColorIndex);
 });
 
 // Изменение цвета фаербола
