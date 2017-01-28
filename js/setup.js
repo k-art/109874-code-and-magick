@@ -45,20 +45,19 @@ var wizardCoatColors = [
 ];
 var currentCoatColorIndex = 0;
 
-var changeColor = function (colorsList, currentColorIndex, itemToPaint) {
+var changeColor = function (colorsList, currentColorIndex) {
   currentColorIndex++;
 
   if (currentColorIndex === colorsList.length) {
     currentColorIndex = 0;
   }
-  itemToPaint.style.fill = colorsList[currentColorIndex];
 
   return currentColorIndex;
 };
 
 wizardCoat.addEventListener('click', function () {
-  currentCoatColorIndex = changeColor(wizardCoatColors, currentCoatColorIndex, wizardCoat);
-  console.log(currentCoatColorIndex);
+  currentCoatColorIndex = changeColor(wizardCoatColors, currentCoatColorIndex);
+  wizardCoat.style.fill = wizardCoatColors[currentCoatColorIndex];
 });
 
 
@@ -74,8 +73,8 @@ var wizardEyesColors = [
 var currentEyesColorIndex = 0;
 
 wizardEyes.addEventListener('click', function () {
-  currentEyesColorIndex = changeColor(wizardEyesColors, currentEyesColorIndex, wizardEyes);
-  console.log(currentEyesColorIndex);
+  currentEyesColorIndex = changeColor(wizardEyesColors, currentEyesColorIndex);
+  wizardEyes.style.fill = wizardEyesColors[currentEyesColorIndex];
 });
 
 // Изменение цвета фаербола
@@ -89,34 +88,7 @@ var setupFireballColors = [
 ];
 var currentFireballColorIndex = 0;
 
-function changeFireballColor() {
-  currentFireballColorIndex++;
-
-  if (currentFireballColorIndex === setupFireballColors.length) {
-    currentFireballColorIndex = 0;
-  }
+setupFireball.addEventListener('click', function () {
+  currentFireballColorIndex = changeColor(setupFireballColors, currentFireballColorIndex);
   setupFireball.style.background = setupFireballColors[currentFireballColorIndex];
-}
-setupFireball.addEventListener('click', changeFireballColor);
-
-// wizardCoat.style.fill = wizardCoatColors[currentCoatColorIndex];
-//
-//  function changeCoatColor() {
-//  currentCoatColorIndex++;
-//
-//  if (currentCoatColorIndex === wizardCoatColors.length) {
-//  currentCoatColorIndex = 0;
-//  }
-//  wizardCoat.style.fill = wizardCoatColors[currentCoatColorIndex];
-//  }
-//  wizardCoat.addEventListener('click', changeCoatColor);
-
-// function changeEyesColor() {
-//   currentEyesColorIndex++;
-//
-//   if (currentEyesColorIndex === wizardEyesColors.length) {
-//     currentEyesColorIndex = 0;
-//   }
-//   wizardEyes.style.fill = wizardEyesColors[currentEyesColorIndex];
-// }
-// wizardEyes.addEventListener('click', changeEyesColor);
+});
