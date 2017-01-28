@@ -20,8 +20,13 @@ setupClose.addEventListener('click', function () {
 //
 var setupUserName = setup.querySelector('.setup-user-name');
 
-setupUserName.required = true;
-setupUserName.setAttribute('maxLength', '50');
+if (!setupUserName.hasAttribute('required')) {
+  setupUserName.required = true;
+}
+
+if (!setupUserName.hasAttribute('maxLength')) {
+  setupUserName.setAttribute('maxLength', '50');
+}
 
 //
 // Кастомизация мага
