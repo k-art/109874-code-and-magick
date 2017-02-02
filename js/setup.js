@@ -16,19 +16,6 @@ setupClose.addEventListener('click', function () {
 });
 
 //
-//  Валидация ввода имени персонажа
-//
-var setupUserName = setup.querySelector('.setup-user-name');
-
-if (!setupUserName.hasAttribute('required')) {
-  setupUserName.required = true;
-}
-
-if (!setupUserName.hasAttribute('maxLength')) {
-  setupUserName.setAttribute('maxLength', '50');
-}
-
-//
 // Кастомизация мага
 //
 
@@ -52,12 +39,12 @@ var changeColor = function (colorsList, currentColorIndex) {
     currentColorIndex = 0;
   }
 
-  return currentColorIndex;
+  return colorsList[currentColorIndex];
 };
 
 wizardCoat.addEventListener('click', function () {
-  currentCoatColorIndex = changeColor(wizardCoatColors, currentCoatColorIndex);
-  wizardCoat.style.fill = wizardCoatColors[currentCoatColorIndex];
+  wizardCoat.style.fill = changeColor(wizardCoatColors, currentCoatColorIndex);
+  currentCoatColorIndex = wizardCoatColors.indexOf(wizardCoat.style.fill);
 });
 
 
@@ -73,8 +60,8 @@ var wizardEyesColors = [
 var currentEyesColorIndex = 0;
 
 wizardEyes.addEventListener('click', function () {
-  currentEyesColorIndex = changeColor(wizardEyesColors, currentEyesColorIndex);
-  wizardEyes.style.fill = wizardEyesColors[currentEyesColorIndex];
+  wizardEyes.style.fill = changeColor(wizardEyesColors, currentEyesColorIndex);
+  currentEyesColorIndex = wizardEyesColors.indexOf(wizardEyes.style.fill);
 });
 
 // Изменение цвета фаербола
@@ -89,6 +76,6 @@ var setupFireballColors = [
 var currentFireballColorIndex = 0;
 
 setupFireball.addEventListener('click', function () {
-  currentFireballColorIndex = changeColor(setupFireballColors, currentFireballColorIndex);
-  setupFireball.style.background = setupFireballColors[currentFireballColorIndex];
+  setupFireball.style.background = changeColor(setupFireballColors, currentFireballColorIndex);
+  currentFireballColorIndex = setupFireballColors.indexOf(changeColor(setupFireballColors, currentFireballColorIndex));
 });
