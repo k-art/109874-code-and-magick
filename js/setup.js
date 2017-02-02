@@ -16,19 +16,6 @@ setupClose.addEventListener('click', function () {
 });
 
 //
-//  Валидация ввода имени персонажа
-//
-var setupUserName = setup.querySelector('.setup-user-name');
-
-if (!setupUserName.hasAttribute('required')) {
-  setupUserName.required = true;
-}
-
-if (!setupUserName.hasAttribute('maxLength')) {
-  setupUserName.setAttribute('maxLength', '50');
-}
-
-//
 // Кастомизация мага
 //
 
