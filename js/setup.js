@@ -4,15 +4,60 @@
 // Открытие и закрытие формы
 //
 var setup = document.querySelector('.setup');
-var setupOpen = document.querySelector('.setup-open');
+var setupOpen = document.querySelector('.setup-open-icon');
 var setupClose = setup.querySelector('.setup-close');
 
-setupOpen.addEventListener('click', function () {
+var ENTER_KEY_CODE = 13;
+var ESCAPE_KEY_CODE = 27;
+
+var isActivateEvent = function (event) {
+  return event.keyCode && event.keyCode === ENTER_KEY_CODE;
+};
+
+var setupKeydownhandler = function (event) {
+  if (event.keyCode === ESCAPE_KEY_CODE) {
+    setup.classList.add('invisible');
+    toggleStateButton();
+  }
+};
+
+
+var showSetup = function () {
   setup.classList.remove('invisible');
+  toggleStateButton();
+  document.addEventListener('keydown', setupKeydownhandler);
+};
+
+var hideSetup = function () {
+  setup.classList.add('invisible');
+  toggleStateButton();
+  document.removeEventListener('keydown', setupKeydownhandler);
+};
+
+var toggleStateButton = function () {
+  var toggle = setup.classList.contains('invisible');
+  setupOpen.setAttribute('aria-pressed', !toggle);
+  setupClose.setAttribute('aria-pressed', toggle);
+};
+
+setupOpen.addEventListener('click', function () {
+  showSetup();
+});
+
+setupOpen.addEventListener('keydown', function (event) {
+  if (isActivateEvent(event)) {
+    showSetup();
+  }
 });
 
 setupClose.addEventListener('click', function () {
-  setup.classList.add('invisible');
+  hideSetup();
+});
+
+setupClose.addEventListener('keydown', function (event) {
+  if (isActivateEvent(event)) {
+    hideSetup();
+  }
 });
 
 //
