@@ -42,26 +42,22 @@ var toggleStateButton = function () {
 
 setupOpen.addEventListener('click', function () {
   showSetup();
-  // toggleStateButton();
 });
 
 setupOpen.addEventListener('keydown', function (event) {
   if (isActivateEvent(event)) {
     showSetup();
   }
-  // toggleStateButton();
 });
 
 setupClose.addEventListener('click', function () {
   hideSetup();
-  // toggleStateButton();
 });
 
 setupClose.addEventListener('keydown', function (event) {
   if (isActivateEvent(event)) {
     hideSetup();
   }
-  // toggleStateButton();
 });
 
 //
