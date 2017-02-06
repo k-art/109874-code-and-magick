@@ -33,11 +33,11 @@ var hideSetup = function () {
 
 var toggleButton = function () {
   if (setup.classList.contains('invisible')) {
-    setupOpen.setAttribute('area-pressed', 'false');
-    setupClose.setAttribute('area-pressed', 'true');
+    setupOpen.setAttribute('aria-pressed', 'false');
+    setupClose.setAttribute('aria-pressed', 'true');
   } else {
-    setupOpen.setAttribute('area-pressed', 'true');
-    setupClose.setAttribute('area-pressed', 'false');
+    setupOpen.setAttribute('aria-pressed', 'true');
+    setupClose.setAttribute('aria-pressed', 'false');
   }
 };
 
