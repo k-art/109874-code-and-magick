@@ -17,52 +17,51 @@ var isActivateEvent = function (event) {
 var setupKeydownhandler = function (event) {
   if (event.keyCode === ESCAPE_KEY_CODE) {
     setup.classList.add('invisible');
+    toggleStateButton();
   }
 };
 
 
 var showSetup = function () {
   setup.classList.remove('invisible');
+  toggleStateButton();
   document.addEventListener('keydown', setupKeydownhandler);
 };
 
 var hideSetup = function () {
   setup.classList.add('invisible');
+  toggleStateButton();
   document.removeEventListener('keydown', setupKeydownhandler);
 };
 
-var toggleButton = function () {
-  if (setup.classList.contains('invisible')) {
-    setupOpen.setAttribute('aria-pressed', 'false');
-    setupClose.setAttribute('aria-pressed', 'true');
-  } else {
-    setupOpen.setAttribute('aria-pressed', 'true');
-    setupClose.setAttribute('aria-pressed', 'false');
-  }
+var toggleStateButton = function () {
+  var toggle = setup.classList.contains('invisible');
+  setupOpen.setAttribute('aria-pressed', !toggle);
+  setupClose.setAttribute('aria-pressed', toggle);
 };
 
 setupOpen.addEventListener('click', function () {
   showSetup();
-  toggleButton();
+  // toggleStateButton();
 });
 
 setupOpen.addEventListener('keydown', function (event) {
   if (isActivateEvent(event)) {
     showSetup();
   }
-  toggleButton();
+  // toggleStateButton();
 });
 
 setupClose.addEventListener('click', function () {
   hideSetup();
-  toggleButton();
+  // toggleStateButton();
 });
 
 setupClose.addEventListener('keydown', function (event) {
   if (isActivateEvent(event)) {
     hideSetup();
   }
-  toggleButton();
+  // toggleStateButton();
 });
 
 //
