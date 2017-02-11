@@ -1,15 +1,18 @@
 'use strict';
 
 window.colorizeElement = function (element, colors, property) {
+  element.style[property] = colors[0];
+
   var currentColor = element.style[property];
 
   function changeColor() {
-    currentColor = colors[window.utils.getRandomElementExcept(colors, colors.indexOf(currentColor))];
+    currentColor = window.utils.getRandomElementExcept(colors, currentColor);
     element.style[property] = currentColor;
   }
+
   element.addEventListener('click', changeColor);
   element.addEventListener('keydown', function (event) {
-    if (event.keyCode && event.keyCode === 13) {
+    if (window.utils.isActivateEvent(event)) {
       changeColor();
     }
   });
