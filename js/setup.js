@@ -1,37 +1,57 @@
 'use strict';
 
-//
-// Открытие и закрытие формы
-//
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open-icon');
 var setupClose = setup.querySelector('.setup-close');
 
-var ENTER_KEY_CODE = 13;
 var ESCAPE_KEY_CODE = 27;
 
-var isActivateEvent = function (event) {
-  return event.keyCode && event.keyCode === ENTER_KEY_CODE;
-};
+var wizart = document.querySelector('#wizard');
+var wizardCoat = wizart.querySelector('#wizard-coat');
+var wizardCoatColors = [
+  'rgb(101, 137, 164)',
+  'rgb(241, 43, 107)',
+  'rgb(146, 100, 161)',
+  'rgb(56, 159, 117)',
+  'rgb(215, 210, 55)',
+  'rgb(0, 0, 0)'
+];
+var wizardEyes = wizart.querySelector('#wizard-eyes');
+var wizardEyesColors = [
+  'black',
+  'red',
+  'blue',
+  'yellow',
+  'green'
+];
+var setupFireball = setup.querySelector('.setup-fireball-wrap');
+var setupFireballColors = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
 
-var setupKeydownhandler = function (event) {
+var setupKeydownHandler = function (event) {
   if (event.keyCode === ESCAPE_KEY_CODE) {
     setup.classList.add('invisible');
     toggleStateButton();
   }
 };
 
-
+// Открытие формы
 var showSetup = function () {
   setup.classList.remove('invisible');
   toggleStateButton();
-  document.addEventListener('keydown', setupKeydownhandler);
+  document.addEventListener('keydown', setupKeydownHandler);
 };
 
+// Закрытие формы
 var hideSetup = function () {
   setup.classList.add('invisible');
   toggleStateButton();
-  document.removeEventListener('keydown', setupKeydownhandler);
+  document.removeEventListener('keydown', setupKeydownHandler);
 };
 
 var toggleStateButton = function () {
@@ -45,7 +65,7 @@ setupOpen.addEventListener('click', function () {
 });
 
 setupOpen.addEventListener('keydown', function (event) {
-  if (isActivateEvent(event)) {
+  if (window.utils.isActivateEvent(event)) {
     showSetup();
   }
 });
@@ -55,72 +75,14 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (event) {
-  if (isActivateEvent(event)) {
+  if (window.utils.isActivateEvent(event)) {
     hideSetup();
   }
 });
 
-//
-// Кастомизация мага
-//
-
 // Смена одежды
-var wizart = document.querySelector('#wizard');
-var wizardCoat = wizart.querySelector('#wizard-coat');
-var wizardCoatColors = [
-  'rgb(101, 137, 164)',
-  'rgb(241, 43, 107)',
-  'rgb(146, 100, 161)',
-  'rgb(56, 159, 117)',
-  'rgb(215, 210, 55)',
-  'rgb(0, 0, 0)'
-];
-var currentCoatColorIndex = 0;
-
-var changeColor = function (colorsList, currentColorIndex) {
-  currentColorIndex++;
-
-  if (currentColorIndex === colorsList.length) {
-    currentColorIndex = 0;
-  }
-
-  return currentColorIndex;
-};
-
-wizardCoat.addEventListener('click', function () {
-  currentCoatColorIndex = changeColor(wizardCoatColors, currentCoatColorIndex);
-  wizardCoat.style.fill = wizardCoatColors[currentCoatColorIndex];
-});
-
-
+window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
 // Изменение цвета глаз
-var wizardEyes = wizart.querySelector('#wizard-eyes');
-var wizardEyesColors = [
-  'black',
-  'red',
-  'blue',
-  'yellow',
-  'green'
-];
-var currentEyesColorIndex = 0;
-
-wizardEyes.addEventListener('click', function () {
-  currentEyesColorIndex = changeColor(wizardEyesColors, currentEyesColorIndex);
-  wizardEyes.style.fill = wizardEyesColors[currentEyesColorIndex];
-});
-
+window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
 // Изменение цвета фаербола
-var setupFireball = setup.querySelector('.setup-fireball-wrap');
-var setupFireballColors = [
-  '#ee4830',
-  '#30a8ee',
-  '#5ce6c0',
-  '#e848d5',
-  '#e6e848'
-];
-var currentFireballColorIndex = 0;
-
-setupFireball.addEventListener('click', function () {
-  currentFireballColorIndex = changeColor(setupFireballColors, currentFireballColorIndex);
-  setupFireball.style.background = setupFireballColors[currentFireballColorIndex];
-});
+window.colorizeElement(setupFireball, setupFireballColors, 'background');
