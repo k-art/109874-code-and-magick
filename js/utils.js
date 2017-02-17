@@ -2,6 +2,7 @@
 
 window.utils = (function () {
   var ENTER_KEY_CODE = 13;
+  var ESCAPE_KEY_CODE = 27;
 
   return {
     getRandomElement: function (arr) {
@@ -16,6 +17,9 @@ window.utils = (function () {
     },
     isActivateEvent: function (event) {
       return event.keyCode && event.keyCode === ENTER_KEY_CODE;
+    },
+    isDeactivateEvent: function (event) {
+      return event.keyCode && event.keyCode === ESCAPE_KEY_CODE;
     }
   };
 })();
