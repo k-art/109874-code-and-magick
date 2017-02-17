@@ -93,13 +93,22 @@
     }
   });
 
+  // callback для colorizeElement
+  var fillElement = function (element, color) {
+    element.style.fill = color;
+  };
+
+  var changeElementBackground = function (element, color) {
+    element.style.backgroundColor = color;
+  };
+
 //
 // Вызов функции смены цветов у мага
 //
 // Смена одежды
-  window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
+  window.colorizeElement(wizardCoat, wizardCoatColors, fillElement);
 // Изменение цвета глаз
-  window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
+  window.colorizeElement(wizardEyes, wizardEyesColors, fillElement);
 // Изменение цвета фаербола
-  window.colorizeElement(setupFireball, setupFireballColors, 'background');
+  window.colorizeElement(setupFireball, setupFireballColors, changeElementBackground);
 })();
