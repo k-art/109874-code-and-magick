@@ -75,7 +75,7 @@
     setupClose.removeEventListener('keydown', enterKeydownHandler);
     document.removeEventListener('keydown', escKeydownHandler);
 
-    if (typeof onSetupClose === 'function') {
+    if (({}).toString.call(onSetupClose) === '[object Function]') {
       onSetupClose();
     }
   };
