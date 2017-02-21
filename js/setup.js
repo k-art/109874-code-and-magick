@@ -4,8 +4,7 @@
   var setup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open-icon');
   var setupClose = setup.querySelector('.setup-close');
-
-  var ESCAPE_KEY_CODE = 27;
+  var onSetupClose = null;
 
   var wizart = document.querySelector('#wizard');
   var wizardCoat = wizart.querySelector('#wizard-coat');
@@ -34,57 +33,82 @@
     '#e6e848'
   ];
 
-  var setupKeydownHandler = function (event) {
-    if (event.keyCode === ESCAPE_KEY_CODE) {
-      setup.classList.add('invisible');
-      toggleStateButton();
-    }
-  };
-
-// Открытие формы
-  var showSetup = function () {
-    setup.classList.remove('invisible');
-    toggleStateButton();
-    document.addEventListener('keydown', setupKeydownHandler);
-  };
-
-// Закрытие формы
-  var hideSetup = function () {
-    setup.classList.add('invisible');
-    toggleStateButton();
-    document.removeEventListener('keydown', setupKeydownHandler);
-  };
-
+// Смена aria атрибутов у кнопок
   var toggleStateButton = function () {
     var toggle = setup.classList.contains('invisible');
     setupOpen.setAttribute('aria-pressed', !toggle);
     setupClose.setAttribute('aria-pressed', toggle);
   };
 
+// Закрытие формы по Esc
+  var escKeydownHandler = function (event) {
+    if (window.utils.isDeactivateEvent(event)) {
+      hideSetup();
+    }
+  };
+
+  // Закрытие формы по Enter
+  var enterKeydownHandler = function (event) {
+    if (window.utils.isActivateEvent(event)) {
+      hideSetup();
+    }
+  };
+
+// Открытие формы
+  var showSetup = function (callback) {
+    setup.classList.remove('invisible');
+    toggleStateButton();
+
+    setupClose.addEventListener('click', hideSetup);
+    setupClose.addEventListener('keydown', enterKeydownHandler);
+    document.addEventListener('keydown', escKeydownHandler);
+
+    onSetupClose = callback;
+  };
+
+// Закрытие формы
+  var hideSetup = function () {
+    setup.classList.add('invisible');
+    toggleStateButton();
+
+    setupClose.removeEventListener('click', hideSetup);
+    setupClose.removeEventListener('keydown', enterKeydownHandler);
+    document.removeEventListener('keydown', escKeydownHandler);
+
+    if (({}).toString.call(onSetupClose) === '[object Function]') {
+      onSetupClose();
+    }
+  };
+
+// Обработчики открытия формы
   setupOpen.addEventListener('click', function () {
     showSetup();
   });
 
   setupOpen.addEventListener('keydown', function (event) {
     if (window.utils.isActivateEvent(event)) {
-      showSetup();
+      showSetup(function () {
+        setupOpen.focus();
+      });
     }
   });
 
-  setupClose.addEventListener('click', function () {
-    hideSetup();
-  });
+  // callback для colorizeElement
+  var fillElement = function (element, color) {
+    element.style.fill = color;
+  };
 
-  setupClose.addEventListener('keydown', function (event) {
-    if (window.utils.isActivateEvent(event)) {
-      hideSetup();
-    }
-  });
+  var changeElementBackground = function (element, color) {
+    element.style.backgroundColor = color;
+  };
 
+//
+// Вызов функции смены цветов у мага
+//
 // Смена одежды
-  window.colorizeElement(wizardCoat, wizardCoatColors, 'fill');
+  window.colorizeElement(wizardCoat, wizardCoatColors, fillElement);
 // Изменение цвета глаз
-  window.colorizeElement(wizardEyes, wizardEyesColors, 'fill');
+  window.colorizeElement(wizardEyes, wizardEyesColors, fillElement);
 // Изменение цвета фаербола
-  window.colorizeElement(setupFireball, setupFireballColors, 'background');
+  window.colorizeElement(setupFireball, setupFireballColors, changeElementBackground);
 })();

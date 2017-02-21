@@ -1,14 +1,13 @@
 'use strict';
 
 window.colorizeElement = (function () {
-  return function (element, colors, property) {
-    element.style[property] = colors[0];
+  return function (element, colors, callback) {
 
-    var currentColor = element.style[property];
+    var currentColor = callback(element, colors[0]);
 
     function changeColor() {
       currentColor = window.utils.getRandomElementExcept(colors, currentColor);
-      element.style[property] = currentColor;
+      callback(element, currentColor);
     }
 
     element.addEventListener('click', changeColor);
