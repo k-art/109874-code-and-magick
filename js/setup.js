@@ -6,8 +6,8 @@
   var setupClose = setup.querySelector('.setup-close');
   var onSetupClose = null;
 
-  var wizart = document.querySelector('#wizard');
-  var wizardCoat = wizart.querySelector('#wizard-coat');
+  var wizard = document.querySelector('#wizard');
+  var wizardCoat = wizard.querySelector('#wizard-coat');
   var wizardCoatColors = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -16,7 +16,7 @@
     'rgb(215, 210, 55)',
     'rgb(0, 0, 0)'
   ];
-  var wizardEyes = wizart.querySelector('#wizard-eyes');
+  var wizardEyes = wizard.querySelector('#wizard-eyes');
   var wizardEyesColors = [
     'black',
     'red',
@@ -32,6 +32,10 @@
     '#e848d5',
     '#e6e848'
   ];
+
+  var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
+  var setupSimilar = document.querySelector('.setup-similar');
+  var wizards = [];
 
 // Смена aria атрибутов у кнопок
   var toggleStateButton = function () {
@@ -64,6 +68,18 @@
     document.addEventListener('keydown', escKeydownHandler);
 
     onSetupClose = callback;
+
+    window.load(DATA_URL, function (data) {
+
+      wizards = JSON.parse(data);
+
+      for (var i = 0; i < 5; i++) {
+        var newWizard = window.render(window.utils.getRandomElementExcept(wizards, wizards[i]));
+        // console.log(newWizard);
+
+        setupSimilar.appendChild(newWizard);
+      }
+    });
   };
 
 // Закрытие формы
