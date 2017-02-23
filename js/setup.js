@@ -7,6 +7,7 @@
   var onSetupClose = null;
 
   var wizard = document.querySelector('#wizard');
+  var setupWizard = document.querySelector('.setup-wizard');
   var wizardCoat = wizard.querySelector('#wizard-coat');
   var wizardCoatColors = [
     'rgb(101, 137, 164)',
@@ -33,9 +34,25 @@
     '#e6e848'
   ];
 
-  var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
-  var setupSimilar = document.querySelector('.setup-similar');
-  var wizards = [];
+  var renderWizards = function () {
+    var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
+    var setupSimilar = document.querySelector('.setup-similar');
+    var wizards = [];
+
+    window.load(DATA_URL, function (data) {
+
+      wizards = JSON.parse(data);
+
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < 5; i++) {
+        var currentWizard = wizards[i];
+        var randomWizard = window.utils.getRandomElementExcept(wizards, currentWizard);
+
+        fragment.appendChild(window.render(randomWizard));
+      }
+      setupSimilar.appendChild(fragment);
+    });
+  };
 
 // Смена aria атрибутов у кнопок
   var toggleStateButton = function () {
@@ -67,19 +84,12 @@
     setupClose.addEventListener('keydown', enterKeydownHandler);
     document.addEventListener('keydown', escKeydownHandler);
 
-    onSetupClose = callback;
-
-    window.load(DATA_URL, function (data) {
-
-      wizards = JSON.parse(data);
-
-      for (var i = 0; i < 5; i++) {
-        var newWizard = window.render(window.utils.getRandomElementExcept(wizards, wizards[i]));
-        // console.log(newWizard);
-
-        setupSimilar.appendChild(newWizard);
-      }
+    // пробовал 'change', но не сработало...
+    setupWizard.addEventListener('click', function () {
+      window.setTimeout(renderWizards, 3000);
     });
+
+    onSetupClose = callback;
   };
 
 // Закрытие формы
