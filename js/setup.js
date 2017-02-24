@@ -4,10 +4,12 @@
   var setup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open-icon');
   var setupClose = setup.querySelector('.setup-close');
-  var onSetupClose = null;
+  var setupSimilar = document.querySelector('.setup-similar');
+  var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
+  var wizards = [];
+  var onSetupClose;
 
   var wizard = document.querySelector('#wizard');
-  var setupWizard = document.querySelector('.setup-wizard');
   var wizardCoat = wizard.querySelector('#wizard-coat');
   var wizardCoatColors = [
     'rgb(101, 137, 164)',
@@ -34,25 +36,46 @@
     '#e6e848'
   ];
 
-  var renderWizards = function () {
-    var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
-    var setupSimilar = document.querySelector('.setup-similar');
-    var wizards = [];
-
+  var loadWizards = function (onDataLoaded) {
     window.load(DATA_URL, function (data) {
-
       wizards = JSON.parse(data);
-
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < 5; i++) {
-        var currentWizard = wizards[i];
-        var randomWizard = window.utils.getRandomElementExcept(wizards, currentWizard);
-
-        fragment.appendChild(window.render(randomWizard));
+      if (({}).toString.call(onDataLoaded) === '[object Function]') {
+        onDataLoaded(wizards);
       }
-      setupSimilar.appendChild(fragment);
     });
   };
+
+  var renderWizards = function (loadedWizards) {
+    var localWizards = loadedWizards.map(function (item) {
+      return item;
+    });
+
+    var fragment = document.createDocumentFragment();
+
+    if (localWizards.length > 5) {
+      for (var i = 0; i < 5; i++) {
+        var index = window.utils.getRandomIndex(localWizards);
+        fragment.appendChild(window.render(localWizards[index]));
+        localWizards.splice(index, 1);
+      }
+    } else {
+      localWizards.forEach(function (newWizard) {
+        fragment.appendChild(window.render(newWizard));
+      });
+    }
+    setupSimilar.innerHTML = '';
+    setupSimilar.appendChild(fragment);
+  };
+
+  var setupChangeTimeoutId;
+  var SETUP_WIZARD_RENDER_TIMEOUT = 5000; // 5 sec
+
+  setup.addEventListener('change', function () {
+    clearTimeout(setupChangeTimeoutId);
+    setupChangeTimeoutId = window.setTimeout(function () {
+      renderWizards(wizards);
+    }, SETUP_WIZARD_RENDER_TIMEOUT);
+  });
 
 // Смена aria атрибутов у кнопок
   var toggleStateButton = function () {
@@ -83,13 +106,8 @@
     setupClose.addEventListener('click', hideSetup);
     setupClose.addEventListener('keydown', enterKeydownHandler);
     document.addEventListener('keydown', escKeydownHandler);
-
-    // пробовал 'change', но не сработало...
-    setupWizard.addEventListener('click', function () {
-      window.setTimeout(renderWizards, 3000);
-    });
-
     onSetupClose = callback;
+    loadWizards(renderWizards);
   };
 
 // Закрытие формы
