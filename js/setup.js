@@ -4,10 +4,13 @@
   var setup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open-icon');
   var setupClose = setup.querySelector('.setup-close');
-  var onSetupClose = null;
+  var setupSimilar = document.querySelector('.setup-similar');
+  var DATA_URL = 'https://intensive-javascript-server-myophkugvq.now.sh/code-and-magick/data';
+  var wizards = [];
+  var onSetupClose;
 
-  var wizart = document.querySelector('#wizard');
-  var wizardCoat = wizart.querySelector('#wizard-coat');
+  var wizard = document.querySelector('#wizard');
+  var wizardCoat = wizard.querySelector('#wizard-coat');
   var wizardCoatColors = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -16,7 +19,7 @@
     'rgb(215, 210, 55)',
     'rgb(0, 0, 0)'
   ];
-  var wizardEyes = wizart.querySelector('#wizard-eyes');
+  var wizardEyes = wizard.querySelector('#wizard-eyes');
   var wizardEyesColors = [
     'black',
     'red',
@@ -32,6 +35,47 @@
     '#e848d5',
     '#e6e848'
   ];
+
+  var loadWizards = function (onDataLoaded) {
+    window.load(DATA_URL, function (data) {
+      wizards = JSON.parse(data);
+      if (({}).toString.call(onDataLoaded) === '[object Function]') {
+        onDataLoaded(wizards);
+      }
+    });
+  };
+
+  var renderWizards = function (loadedWizards) {
+    var localWizards = loadedWizards.map(function (item) {
+      return item;
+    });
+
+    var fragment = document.createDocumentFragment();
+
+    if (localWizards.length > 5) {
+      for (var i = 0; i < 5; i++) {
+        var index = window.utils.getRandomIndex(localWizards);
+        fragment.appendChild(window.render(localWizards[index]));
+        localWizards.splice(index, 1);
+      }
+    } else {
+      localWizards.forEach(function (newWizard) {
+        fragment.appendChild(window.render(newWizard));
+      });
+    }
+    setupSimilar.innerHTML = '';
+    setupSimilar.appendChild(fragment);
+  };
+
+  var setupChangeTimeoutId;
+  var SETUP_WIZARD_RENDER_TIMEOUT = 5000; // 5 sec
+
+  setup.addEventListener('change', function () {
+    clearTimeout(setupChangeTimeoutId);
+    setupChangeTimeoutId = window.setTimeout(function () {
+      renderWizards(wizards);
+    }, SETUP_WIZARD_RENDER_TIMEOUT);
+  });
 
 // Смена aria атрибутов у кнопок
   var toggleStateButton = function () {
@@ -62,8 +106,8 @@
     setupClose.addEventListener('click', hideSetup);
     setupClose.addEventListener('keydown', enterKeydownHandler);
     document.addEventListener('keydown', escKeydownHandler);
-
     onSetupClose = callback;
+    loadWizards(renderWizards);
   };
 
 // Закрытие формы

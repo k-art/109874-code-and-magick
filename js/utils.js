@@ -8,6 +8,11 @@ window.utils = (function () {
     getRandomElement: function (arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     },
+
+    getRandomIndex: function (arr) {
+      return Math.floor(Math.random() * arr.length);
+    },
+
     getRandomElementExcept: function (arr, elem) {
       var randomElem = window.utils.getRandomElement(arr);
       while (randomElem === elem) {
@@ -15,9 +20,11 @@ window.utils = (function () {
       }
       return randomElem;
     },
+
     isActivateEvent: function (event) {
       return event.keyCode && event.keyCode === ENTER_KEY_CODE;
     },
+
     isDeactivateEvent: function (event) {
       return event.keyCode && event.keyCode === ESCAPE_KEY_CODE;
     }
