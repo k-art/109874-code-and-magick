@@ -9,11 +9,6 @@ window.utils = (function () {
       return arr[Math.floor(Math.random() * arr.length)];
     },
 
-    getRandomElementWithIndex: function (arr) {
-      var index = Math.floor(Math.random() * arr.length);
-      return {element: arr[index], index: index};
-    },
-
     getRandomIndex: function (arr) {
       return Math.floor(Math.random() * arr.length);
     },
